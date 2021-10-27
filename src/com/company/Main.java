@@ -1,6 +1,7 @@
 package com.company;
 
 import java.util.*;
+import java.io.*;
 class Dice{
     private int face_value;
     private Random ran=new Random();;
@@ -48,10 +49,11 @@ class Empty_Floor{
     }
     public void move(Player p){
         p.setCurrent_level(p.getCurrent_level()+1);
-        p.setTotal_point(p.getTotal_point()+1);
+        p.setTotal_point(p.getTotal_point()+this.point_added_or_deducted);
         System.out.println("Player position Floor - "+p.getCurrent_level());
         System.out.println(p.getName()+" has reached an Empty Floor");
         System.out.println("Total points "+p.getTotal_point());
+        display.function(p);
     }
     public void move(Player p,int n){
         p.setCurrent_level(p.getCurrent_level()+n);
@@ -59,6 +61,7 @@ class Empty_Floor{
         System.out.println("Player position Floor - "+p.getCurrent_level());
         System.out.println(p.getName()+" has reached an Empty Floor");
         System.out.println("Total points "+p.getTotal_point());
+        display.function(p);
 
     }
 }
@@ -71,10 +74,11 @@ class Ladder_Floor extends Empty_Floor{
     @Override
     public void move(Player p) {
         p.setCurrent_level(8);
-        p.setTotal_point(p.getTotal_point()+2);
+        p.setTotal_point(p.getTotal_point()+this.point_added_or_deducted);
         System.out.println("Player position Floor - "+p.getCurrent_level());
         System.out.println(p.getName()+" has reached a Ladder Floor");
         System.out.println("Total points "+p.getTotal_point());
+        display.function(p);
         Empty_Floor floor=new Empty_Floor();
         floor.move(p,4);
     }
@@ -88,10 +92,11 @@ class Elevator extends Empty_Floor{
     @Override
     public void move(Player p) {
         p.setCurrent_level(2);
-        p.setTotal_point(p.getTotal_point()+4);
+        p.setTotal_point(p.getTotal_point()+this.point_added_or_deducted);
         System.out.println("Player position Floor - "+p.getCurrent_level());
         System.out.println(p.getName()+" has reached a Elevator Floor");
         System.out.println("Total points "+p.getTotal_point());
+        display.function(p);
         Empty_Floor floor=new Empty_Floor();
         floor.move(p,8);
 
@@ -105,10 +110,11 @@ class Normal_Snake extends Empty_Floor{
     @Override
     public void move(Player p){
         p.setCurrent_level(5);
-        p.setTotal_point(p.getTotal_point()-2);
+        p.setTotal_point(p.getTotal_point()+this.point_added_or_deducted);
         System.out.println("Player position Floor - "+p.getCurrent_level());
         System.out.println(p.getName()+" has reached a Normal Snake Floor");
         System.out.println("Total points "+p.getTotal_point());
+        display.function(p);
         Empty_Floor floor=new Empty_Floor();
         floor.move(p,-4);
     }
@@ -121,16 +127,276 @@ class King_Cobra extends Normal_Snake{
     @Override
     public void move(Player p) {
         p.setCurrent_level(11);
-        p.setTotal_point(p.getTotal_point()-4);
+        p.setTotal_point(p.getTotal_point()+this.point_added_or_deducted);
         System.out.println("Player position Floor - "+p.getCurrent_level());
         System.out.println(p.getName()+" has reached a King Cobra Floor");
         System.out.println("Total points "+p.getTotal_point());
+        display.function(p);
         Empty_Floor floor=new Empty_Floor();
         floor.move(p,-8);
     }
 }
+class display{
+
+    public static void function(Player p){
+            if(p.getCurrent_level()==0){
+                System.out.println("            ++++++++++++++++++++++++++++++++++++++++++++"
+                +"\n            +       FINISH                             +"
+                +"\n            +       Level 12                           +<<╸╸╸╸╸╸╸╻"
+                +"\n    ╻╸╸╸╸╸╸ +       King Cobra                         +         ┃"
+                +"\n    ┃       +       Level 10                           +<<╸╸╸╻   ┃"
+                +"\n    ┃       +       Level 9                            +     ┃   ┃"
+                +"\n    ┃       +       Ladder                             + ╸╸╸╸┃╸╸╸╹ "
+                +"\n    ┃       +       Level 7                            +     ┃"
+                +"\n    ┃       +       Level 6                            +     ┃"
+                +"\n    ┃ ╻╸╸╸╸╸+       Snake                              +     ┃"
+                +"\n    ┃ ┃     +       Level 4                            +     ┃"
+                +"\n    ╹╸┃╸╸>> +       Level 3                            +     ┃"
+                +"\n      ┃     +       Elevator                           + ╸╸╸╸╹"
+                +"\n      ╹╸╸>> +       Level 1                            +"
+                +"\n            +       START       <<---- Your Position   +"
+                +"\n            ++++++++++++++++++++++++++++++++++++++++++++");
+
+            }
+            else if(p.getCurrent_level()==1){
+                System.out.println("            ++++++++++++++++++++++++++++++++++++++++++++"
+                +"\n            +       FINISH                             +"
+                +"\n            +       Level 12                           +<<╸╸╸╸╸╸╸╻"
+                +"\n    ╻╸╸╸╸╸╸ +       King Cobra                         +         ┃"
+                +"\n    ┃       +       Level 10                           +<<╸╸╸╻   ┃"
+                +"\n    ┃       +       Level 9                            +     ┃   ┃"
+                +"\n    ┃       +       Ladder                             + ╸╸╸╸┃╸╸╸╹ "
+                +"\n    ┃       +       Level 7                            +     ┃"
+                +"\n    ┃       +       Level 6                            +     ┃"
+                +"\n    ┃ ╻╸╸╸╸╸+       Snake                              +     ┃"
+                +"\n    ┃ ┃     +       Level 4                            +     ┃"
+                +"\n    ╹╸┃╸╸>> +       Level 3                            +     ┃"
+                +"\n      ┃     +       Elevator                           + ╸╸╸╸╹"
+                +"\n      ╹╸╸>> +       Level 1     <<---- Your Position   +"
+                +"\n            +       START                              +"
+                +"\n            ++++++++++++++++++++++++++++++++++++++++++++");
+            }
+            else if(p.getCurrent_level()==2){
+                System.out.println("            ++++++++++++++++++++++++++++++++++++++++++++"
+                +"\n            +       FINISH                             +"
+                +"\n            +       Level 12                           +<<╸╸╸╸╸╸╸╻"
+                +"\n    ╻╸╸╸╸╸╸ +       King Cobra                         +         ┃"
+                +"\n    ┃       +       Level 10                           +<<╸╸╸╻   ┃"
+                +"\n    ┃       +       Level 9                            +     ┃   ┃"
+                +"\n    ┃       +       Ladder                             + ╸╸╸╸┃╸╸╸╹ "
+                +"\n    ┃       +       Level 7                            +     ┃"
+                +"\n    ┃       +       Level 6                            +     ┃"
+                +"\n    ┃ ╻╸╸╸╸╸+       Snake                              +     ┃"
+                +"\n    ┃ ┃     +       Level 4                            +     ┃"
+                +"\n    ╹╸┃╸╸>> +       Level 3                            +     ┃"
+                +"\n      ┃     +       Elevator    <<---- Your Position   + ╸╸╸╸╹"
+                +"\n      ╹╸╸>> +       Level 1                            +"
+                +"\n            +       START                              +"
+                +"\n            ++++++++++++++++++++++++++++++++++++++++++++");
+            }
+            else if(p.getCurrent_level()==3){
+                System.out.println("            ++++++++++++++++++++++++++++++++++++++++++++"
+                +"\n            +       FINISH                             +"
+                +"\n            +       Level 12                           +<<╸╸╸╸╸╸╸╻"
+                +"\n    ╻╸╸╸╸╸╸ +       King Cobra                         +         ┃"
+                +"\n    ┃       +       Level 10                           +<<╸╸╸╻   ┃"
+                +"\n    ┃       +       Level 9                            +     ┃   ┃"
+                +"\n    ┃       +       Ladder                             + ╸╸╸╸┃╸╸╸╹ "
+                +"\n    ┃       +       Level 7                            +     ┃"
+                +"\n    ┃       +       Level 6                            +     ┃"
+                +"\n    ┃ ╻╸╸╸╸╸+       Snake                              +     ┃"
+                +"\n    ┃ ┃     +       Level 4                            +     ┃"
+                +"\n    ╹╸┃╸╸>> +       Level 3     <<---- Your Position   +     ┃"
+                +"\n      ┃     +       Elevator                           + ╸╸╸╸╹"
+                +"\n      ╹╸╸>> +       Level 1                            +"
+                +"\n            +       START                              +"
+                +"\n            ++++++++++++++++++++++++++++++++++++++++++++");
+            }
+            else if(p.getCurrent_level()==4){
+                System.out.println("            ++++++++++++++++++++++++++++++++++++++++++++"
+                +"\n            +       FINISH                             +"
+                +"\n            +       Level 12                           +<<╸╸╸╸╸╸╸╻"
+                +"\n    ╻╸╸╸╸╸╸ +       King Cobra                         +         ┃"
+                +"\n    ┃       +       Level 10                           +<<╸╸╸╻   ┃"
+                +"\n    ┃       +       Level 9                            +     ┃   ┃"
+                +"\n    ┃       +       Ladder                             + ╸╸╸╸┃╸╸╸╹ "
+                +"\n    ┃       +       Level 7                            +     ┃"
+                +"\n    ┃       +       Level 6                            +     ┃"
+                +"\n    ┃ ╻╸╸╸╸╸+       Snake                              +     ┃"
+                +"\n    ┃ ┃     +       Level 4     <<---- Your Position   +     ┃"
+                +"\n    ╹╸┃╸╸>> +       Level 3                            +     ┃"
+                +"\n      ┃     +       Elevator                           + ╸╸╸╸╹"
+                +"\n      ╹╸╸>> +       Level 1                            +"
+                +"\n            +       START                              +"
+                +"\n            ++++++++++++++++++++++++++++++++++++++++++++");
+            }
+            else if(p.getCurrent_level()==5){
+                System.out.println("            ++++++++++++++++++++++++++++++++++++++++++++"
+                +"\n            +       FINISH                             +"
+                +"\n            +       Level 12                           +<<╸╸╸╸╸╸╸╻"
+                +"\n    ╻╸╸╸╸╸╸ +       King Cobra                         +         ┃"
+                +"\n    ┃       +       Level 10                           +<<╸╸╸╻   ┃"
+                +"\n    ┃       +       Level 9                            +     ┃   ┃"
+                +"\n    ┃       +       Ladder                             + ╸╸╸╸┃╸╸╸╹ "
+                +"\n    ┃       +       Level 7                            +     ┃"
+                +"\n    ┃       +       Level 6                            +     ┃"
+                +"\n    ┃ ╻╸╸╸╸╸+       Snake       <<---- Your Position   +     ┃"
+                +"\n    ┃ ┃     +       Level 4                            +     ┃"
+                +"\n    ╹╸┃╸╸>> +       Level 3                            +     ┃"
+                +"\n      ┃     +       Elevator                           + ╸╸╸╸╹"
+                +"\n      ╹╸╸>> +       Level 1                            +"
+                +"\n            +       START                              +"
+                +"\n            ++++++++++++++++++++++++++++++++++++++++++++");
+            }
+            else if(p.getCurrent_level()==6){
+                System.out.println("            ++++++++++++++++++++++++++++++++++++++++++++"
+                +"\n            +       FINISH                             +"
+                +"\n            +       Level 12                           +<<╸╸╸╸╸╸╸╻"
+                +"\n    ╻╸╸╸╸╸╸ +       King Cobra                         +         ┃"
+                +"\n    ┃       +       Level 10                           +<<╸╸╸╻   ┃"
+                +"\n    ┃       +       Level 9                            +     ┃   ┃"
+                +"\n    ┃       +       Ladder                             + ╸╸╸╸┃╸╸╸╹ "
+                +"\n    ┃       +       Level 7                            +     ┃"
+                +"\n    ┃       +       Level 6     <<---- Your Position   +     ┃"
+                +"\n    ┃ ╻╸╸╸╸╸+       Snake                              +     ┃"
+                +"\n    ┃ ┃     +       Level 4                            +     ┃"
+                +"\n    ╹╸┃╸╸>> +       Level 3                            +     ┃"
+                +"\n      ┃     +       Elevator                           + ╸╸╸╸╹"
+                +"\n      ╹╸╸>> +       Level 1                            +"
+                +"\n            +       START                              +"
+                +"\n            ++++++++++++++++++++++++++++++++++++++++++++");
+            }
+            else if(p.getCurrent_level()==7){
+                System.out.println("            ++++++++++++++++++++++++++++++++++++++++++++"
+                +"\n            +       FINISH                             +"
+                +"\n            +       Level 12                           +<<╸╸╸╸╸╸╸╻"
+                +"\n    ╻╸╸╸╸╸╸ +       King Cobra                         +         ┃"
+                +"\n    ┃       +       Level 10                           +<<╸╸╸╻   ┃"
+                +"\n    ┃       +       Level 9                            +     ┃   ┃"
+                +"\n    ┃       +       Ladder                             + ╸╸╸╸┃╸╸╸╹ "
+                +"\n    ┃       +       Level 7     <<---- Your Position   +     ┃"
+                +"\n    ┃       +       Level 6                            +     ┃"
+                +"\n    ┃ ╻╸╸╸╸╸+       Snake                              +     ┃"
+                +"\n    ┃ ┃     +       Level 4                            +     ┃"
+                +"\n    ╹╸┃╸╸>> +       Level 3                            +     ┃"
+                +"\n      ┃     +       Elevator                           + ╸╸╸╸╹"
+                +"\n      ╹╸╸>> +       Level 1                            +"
+                +"\n            +       START                              +"
+                +"\n            ++++++++++++++++++++++++++++++++++++++++++++");
+            }
+            else if(p.getCurrent_level()==8){
+                System.out.println("            ++++++++++++++++++++++++++++++++++++++++++++"
+                +"\n            +       FINISH                             +"
+                +"\n            +       Level 12                           +<<╸╸╸╸╸╸╸╻"
+                +"\n    ╻╸╸╸╸╸╸ +       King Cobra                         +         ┃"
+                +"\n    ┃       +       Level 10                           +<<╸╸╸╻   ┃"
+                +"\n    ┃       +       Level 9                            +     ┃   ┃"
+                +"\n    ┃       +       Ladder      <<---- Your Position   + ╸╸╸╸┃╸╸╸╹ "
+                +"\n    ┃       +       Level 7                            +     ┃"
+                +"\n    ┃       +       Level 6                            +     ┃"
+                +"\n    ┃ ╻╸╸╸╸╸+       Snake                              +     ┃"
+                +"\n    ┃ ┃     +       Level 4                            +     ┃"
+                +"\n    ╹╸┃╸╸>> +       Level 3                            +     ┃"
+                +"\n      ┃     +       Elevator                           + ╸╸╸╸╹"
+                +"\n      ╹╸╸>> +       Level 1                            +"
+                +"\n            +       START                              +"
+                +"\n            ++++++++++++++++++++++++++++++++++++++++++++");
+            }
+            else if(p.getCurrent_level()==9){
+                System.out.println("            ++++++++++++++++++++++++++++++++++++++++++++"
+                +"\n            +       FINISH                             +"
+                +"\n            +       Level 12                           +<<╸╸╸╸╸╸╸╻"
+                +"\n    ╻╸╸╸╸╸╸ +       King Cobra                         +         ┃"
+                +"\n    ┃       +       Level 10                           +<<╸╸╸╻   ┃"
+                +"\n    ┃       +       Level 9     <<---- Your Position   +     ┃   ┃"
+                +"\n    ┃       +       Ladder                             + ╸╸╸╸┃╸╸╸╹ "
+                +"\n    ┃       +       Level 7                            +     ┃"
+                +"\n    ┃       +       Level 6                            +     ┃"
+                +"\n    ┃ ╻╸╸╸╸╸+       Snake                              +     ┃"
+                +"\n    ┃ ┃     +       Level 4                            +     ┃"
+                +"\n    ╹╸┃╸╸>> +       Level 3                            +     ┃"
+                +"\n      ┃     +       Elevator                           + ╸╸╸╸╹"
+                +"\n      ╹╸╸>> +       Level 1                            +"
+                +"\n            +       START                              +"
+                +"\n            ++++++++++++++++++++++++++++++++++++++++++++");
+            }
+            else if(p.getCurrent_level()==10){
+                System.out.println("            ++++++++++++++++++++++++++++++++++++++++++++"
+                +"\n            +       FINISH                             +"
+                +"\n            +       Level 12                           +<<╸╸╸╸╸╸╸╻"
+                +"\n    ╻╸╸╸╸╸╸ +       King Cobra                         +         ┃"
+                +"\n    ┃       +       Level 10    <<---- Your Position   +<<╸╸╸╻   ┃"
+                +"\n    ┃       +       Level 9                            +     ┃   ┃"
+                +"\n    ┃       +       Ladder                             + ╸╸╸╸┃╸╸╸╹ "
+                +"\n    ┃       +       Level 7                            +     ┃"
+                +"\n    ┃       +       Level 6                            +     ┃"
+                +"\n    ┃ ╻╸╸╸╸╸+       Snake                              +     ┃"
+                +"\n    ┃ ┃     +       Level 4                            +     ┃"
+                +"\n    ╹╸┃╸╸>> +       Level 3                            +     ┃"
+                +"\n      ┃     +       Elevator                           + ╸╸╸╸╹"
+                +"\n      ╹╸╸>> +       Level 1                            +"
+                +"\n            +       START                              +"
+                +"\n            ++++++++++++++++++++++++++++++++++++++++++++");
+            }
+            else if(p.getCurrent_level()==11){
+                System.out.println("            ++++++++++++++++++++++++++++++++++++++++++++"
+                +"\n            +       FINISH                             +"
+                +"\n            +       Level 12                           +<<╸╸╸╸╸╸╸╻"
+                +"\n    ╻╸╸╸╸╸╸ +       King Cobra  <<---- Your Position   +         ┃"
+                +"\n    ┃       +       Level 10                           +<<╸╸╸╻   ┃"
+                +"\n    ┃       +       Level 9                            +     ┃   ┃"
+                +"\n    ┃       +       Ladder                             + ╸╸╸╸┃╸╸╸╹ "
+                +"\n    ┃       +       Level 7                            +     ┃"
+                +"\n    ┃       +       Level 6                            +     ┃"
+                +"\n    ┃ ╻╸╸╸╸╸+       Snake                              +     ┃"
+                +"\n    ┃ ┃     +       Level 4                            +     ┃"
+                +"\n    ╹╸┃╸╸>> +       Level 3                            +     ┃"
+                +"\n      ┃     +       Elevator                           + ╸╸╸╸╹"
+                +"\n      ╹╸╸>> +       Level 1                            +"
+                +"\n            +       START                              +"
+                +"\n            ++++++++++++++++++++++++++++++++++++++++++++");
+            }
+            else if(p.getCurrent_level()==12){
+                System.out.println("            ++++++++++++++++++++++++++++++++++++++++++++"
+                +"\n            +       FINISH                             +"
+                +"\n            +       Level 12    <<---- Your Position   +<<╸╸╸╸╸╸╸╻"
+                +"\n    ╻╸╸╸╸╸╸ +       King Cobra                         +         ┃"
+                +"\n    ┃       +       Level 10                           +<<╸╸╸╻   ┃"
+                +"\n    ┃       +       Level 9                            +     ┃   ┃"
+                +"\n    ┃       +       Ladder                             + ╸╸╸╸┃╸╸╸╹ "
+                +"\n    ┃       +       Level 7                            +     ┃"
+                +"\n    ┃       +       Level 6                            +     ┃"
+                +"\n    ┃ ╻╸╸╸╸╸+       Snake                              +     ┃"
+                +"\n    ┃ ┃     +       Level 4                            +     ┃"
+                +"\n    ╹╸┃╸╸>> +       Level 3                            +     ┃"
+                +"\n      ┃     +       Elevator                           + ╸╸╸╸╹"
+                +"\n      ╹╸╸>> +       Level 1                            +"
+                +"\n            +       START                              +"
+                +"\n            ++++++++++++++++++++++++++++++++++++++++++++");
+            }
+            else if(p.getCurrent_level()==13){
+                System.out.println("            ++++++++++++++++++++++++++++++++++++++++++++"
+                +"\n            +       FINISH      <<---- Your Position   +"
+                +"\n            +       Level 12                           +<<╸╸╸╸╸╸╸╻"
+                +"\n    ╻╸╸╸╸╸╸ +       King Cobra                         +         ┃"
+                +"\n    ┃       +       Level 10                           +<<╸╸╸╻   ┃"
+                +"\n    ┃       +       Level 9                            +     ┃   ┃"
+                +"\n    ┃       +       Ladder                             + ╸╸╸╸┃╸╸╸╹ "
+                +"\n    ┃       +       Level 7                            +     ┃"
+                +"\n    ┃       +       Level 6                            +     ┃"
+                +"\n    ┃ ╻╸╸╸╸╸+       Snake                              +     ┃"
+                +"\n    ┃ ┃     +       Level 4                            +     ┃"
+                +"\n    ╹╸┃╸╸>> +       Level 3                            +     ┃"
+                +"\n      ┃     +       Elevator                           + ╸╸╸╸╹"
+                +"\n      ╹╸╸>> +       Level 1                            +"
+                +"\n            +       START                              +"
+                +"\n            ++++++++++++++++++++++++++++++++++++++++++++");
+            }
+    }
+
+}
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         final ArrayList<Object> arr=new ArrayList<>();
         Empty_Floor empty_floor=new Empty_Floor(1);
         Ladder_Floor ladder_floor=new Ladder_Floor(2);
@@ -151,25 +417,9 @@ public class Main {
         arr.add(king_cobra);
         arr.add(empty_floor);
         arr.add(empty_floor);
-        System.out.println("++++++++++++++++++");
-        System.out.println("+   FINISH       +");
-        System.out.println("+   Level 12     +");
-        System.out.println("+   King Cobra   +");
-        System.out.println("+   Level 10     +");
-        System.out.println("+   Level 9      +");
-        System.out.println("+   Ladder       +");
-        System.out.println("+   Level 7      +");
-        System.out.println("+   Level 6      +");
-        System.out.println("+   Snake        +");
-        System.out.println("+   Level 4      +");
-        System.out.println("+   Level 3      +");
-        System.out.println("+   Elevator     +");
-        System.out.println("+   Level 1      +");
-        System.out.println("+   START        +");
-        System.out.println("++++++++++++++++++");
         System.out.println("Enter the player name and hit enter:- ");
-        Scanner sc=new Scanner(System.in);
-        String t= sc.nextLine();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String t= reader.readLine();
         Player player=new Player(t);
         int j = 0;
         boolean bool=false;
@@ -177,83 +427,72 @@ public class Main {
         System.out.println("----------------------------------------");
         outerloop:
         while(true){
-            System.out.print("Hit enter to roll the dice");
-            String enter=sc.nextLine();
+            System.out.print("Hit enter to roll the dice\n");
+            reader.readLine();
             Dice dice_roll=new Dice();
             System.out.println("Dice gave "+dice_roll.getFace_value());
             if(dice_roll.getFace_value()==1){
-                Empty_Floor empty_floor1=new Empty_Floor();
-                empty_floor1.move(player);
-                player.setTotal_point(1);
+                empty_floor.move(player);
                 System.out.println("----------------------------------------");
                 outerloop1:
                 while (player.getCurrent_level()<12){
-                    System.out.print("Hit enter to roll the dice");
-                    String enter1=sc.nextLine();
+                    System.out.print("Hit enter to roll the dice\n");
+                    reader.readLine();
                     dice_roll.Roll();
                     System.out.println("Dice gave "+dice_roll.getFace_value());
                     j=j+ dice_roll.getFace_value();
                     if(dice_roll.getFace_value()==1){
                         if(arr.get(j).getClass()==Empty_Floor.class){
-                            Empty_Floor empty_floor2=(Empty_Floor) arr.get(j);
-                            empty_floor2.move(player);
+                            empty_floor.move(player);
                             j= player.getCurrent_level();
                             System.out.println("----------------------------------------");
 
                         }
                         else if(arr.get(j).getClass()==Ladder_Floor.class){
-                            Ladder_Floor ladder_floor2=(Ladder_Floor) arr.get(j);
-                            ladder_floor2.move(player);
+                            ladder_floor.move(player);
                             j= player.getCurrent_level();
                             System.out.println("----------------------------------------");
                         }
                         else if(arr.get(j).getClass()==Elevator.class){
-                            Elevator elevator2= (Elevator) arr.get(j);
-                            elevator2.move(player);
+                            elevator.move(player);
                             j= player.getCurrent_level();
                             System.out.println("----------------------------------------");
                         }
                         else if(arr.get(j).getClass()==Normal_Snake.class){
-                            Normal_Snake normal_snake2= (Normal_Snake) arr.get(j);
-                            normal_snake2.move(player);
+                            normal_snake.move(player);
                             j= player.getCurrent_level();
                             System.out.println("----------------------------------------");
+
                         }
                         else if(arr.get(j).getClass()==King_Cobra.class){
-                            King_Cobra king_cobra2 =(King_Cobra) arr.get(j);
-                            king_cobra2.move(player);
+                            king_cobra.move(player);
                             j= player.getCurrent_level();
                             System.out.println("----------------------------------------");
                         }
                     }
                     else {
                         if(arr.get(j).getClass()==Empty_Floor.class){
-                            Empty_Floor empty_floor2=(Empty_Floor) arr.get(j);
-                            empty_floor2.move(player, dice_roll.getFace_value());
+                            empty_floor.move(player, dice_roll.getFace_value());
                             j= player.getCurrent_level();
                             System.out.println("----------------------------------------");
                         }
                         else if(arr.get(j).getClass()==Ladder_Floor.class){
-                            Ladder_Floor ladder_floor2=(Ladder_Floor) arr.get(j);
-                            ladder_floor2.move(player);
+                            ladder_floor.move(player);
                             j= player.getCurrent_level();
                             System.out.println("----------------------------------------");
                         }
                         else if(arr.get(j).getClass()==Elevator.class){
-                            Elevator elevator2= (Elevator) arr.get(j);
-                            elevator2.move(player);
+                            elevator.move(player);
                             j= player.getCurrent_level();
                             System.out.println("----------------------------------------");
                         }
                         else if(arr.get(j).getClass()==Normal_Snake.class){
-                            Normal_Snake normal_snake2= (Normal_Snake) arr.get(j);
-                            normal_snake2.move(player);
+                            normal_snake.move(player);
                             j= player.getCurrent_level();
                             System.out.println("----------------------------------------");
                         }
                         else if(arr.get(j).getClass()==King_Cobra.class){
-                            King_Cobra king_cobra2 =(King_Cobra) arr.get(j);
-                            king_cobra2.move(player);
+                            king_cobra.move(player);
                             j= player.getCurrent_level();
                             System.out.println("----------------------------------------");
                         }
@@ -261,7 +500,7 @@ public class Main {
                     }
                     if(player.getCurrent_level()==12){
                         bool=true;
-                        break outerloop1;
+                        break;
                     }
                     if(player.getCurrent_level()==13){
                         System.out.println("Game over");
@@ -272,13 +511,12 @@ public class Main {
                 }
                 if(bool==true){
                     while(true){
-                        System.out.print("Hit enter to roll the dice");
-                        enter=sc.nextLine();
+                        System.out.print("Hit enter to roll the dice\n");
+                        reader.readLine();
                         dice_roll=new Dice();
                         System.out.println("Dice gave "+dice_roll.getFace_value());
                         if(dice_roll.getFace_value()==1){
-                            Empty_Floor empty_floor2=(Empty_Floor) arr.get(j);
-                            empty_floor2.move(player);
+                            empty_floor.move(player);
                             System.out.println("Game over");
                             System.out.println(player.getName()+" accumulated "+player.getTotal_point()+" points");
                             System.out.println("----------------------------------------");
@@ -289,19 +527,11 @@ public class Main {
                         }
                     }
                 }
-//                else{
-//                    while (true){
-//
-//                    }
-//                }
             }
             else {
                 System.out.println("Game cannot start until you get 1");
                 System.out.println("----------------------------------------");
             }
         }
-
-
-
     }
 }
